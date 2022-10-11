@@ -29,7 +29,7 @@
         {
           "name": "MONGO_PORT",
           "label": "Mongo DB public port",
-          "description": "Define the image version to use",
+          "description": "Define public port used to access the DB",
           "default": "27018"
         }
       ]
