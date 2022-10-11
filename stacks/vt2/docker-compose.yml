@@ -59,6 +59,6 @@ services:
 networks:
   default:
     name: ${VT2_NAME}-net
-  poxy-net:
+  proxy-net:
     external: true
       
