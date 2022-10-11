@@ -4,10 +4,10 @@ version: '3.5'
 services:
   mongodb:
     image: mitchellday06/vt2mongo:latest
-    container_name: demo-cubicvt2-mongodb
+    container_name: ${VT2_NAME}-cubicvt2-mongodb
     volumes:
-      - "/data/demo-mongodb:/data/db"
-      - "/data/demo-mongodb/config:/data/configdb"
+      - "/data/${VT2_NAME}-mongodb:/data/db"
+      - "/data/${VT2_NAME}-mongodb/config:/data/configdb"
       #- ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
@@ -21,7 +21,7 @@ services:
     #   timeout: 10s
     #   retries: 5
     #   start_period: 40s
-    restart: on-failure
+    restart: unless-stopped
   
   #create vt2 app
   # vt2:
@@ -35,25 +35,25 @@ services:
   #     - 82:80
   #   restart: always
   vt2:
-    image: mitchellday06/cubicvt2:1.0.3
-    container_name: demo-cubic-vt2
+    image: mitchellday06/cubicvt2:${VT2_VERSION}
+    container_name: ${VT2_NAME}-cubic-vt2
     command: npm run server
     volumes:
-      - "/var/vt2/demo/video_results:/app/data/tewts/results/videos"
+      - "/var/vt2/${VT2_NAME}/video_results:/app/data/tewts/results/videos"
     environment:
-      MONGO_ADDRESS: demo-cubicvt2-mongodb
+      MONGO_ADDRESS: ${VT2_NAME}-cubicvt2-mongodb
       #MONGO_ADDRESS: mongodb
-      APP_NAME: "Demo VT2"
+      APP_NAME: "${VT2_NAME} VT2"
     #ports:
       #- 442:443
     depends_on:
       mongodb:
         #condition: service_healthy
         condition: service_started
-    restart: on-failure
+    restart: unless-stopped
 networks:
   default:
-    name: demo-net
+    name: ${VT2_NAME}-net
   poxy-net:
     external:
       name: proxy-net
