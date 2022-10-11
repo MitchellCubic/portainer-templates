@@ -2,6 +2,39 @@
   "version": "2",
   "templates": [
     {
+      "type": 3,
+      "title": "VT2",
+      "description": "Virtual Training Tool",
+      "note": "Virtual Training Tool",
+      "categories": ["Training", "Cubic"],
+      "platform": "linux",
+      "logo": "https://demo.vt2.app/media/vt2_apple.png",
+      "repository": {
+        "url": "https://github.com/MitchellCubic/portainer-templates",
+        "stackfile": "stacks/vt2/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "VT2_NAME",
+          "label": "VT2 Name",
+          "description": "This will be used to name the container, network and volume folder",
+          "default": "demo"
+        },
+        {
+          "name": "VT2_IMAGE",
+          "label": "VT2 Image version",
+          "description": "Define the image version to use",
+          "default": "1.0.3"
+        },
+        {
+          "name": "MONGO_PORT",
+          "label": "Mongo DB public port",
+          "description": "Define the image version to use",
+          "default": "27018"
+        }
+      ]
+    },
+    {
       "type": 1,
       "title": "Registry",
       "description": "Docker image registry",
@@ -1039,39 +1072,6 @@
         {
           "name": "POSTGRES_PASSWORD",
           "label": "Postgres password"
-        }
-      ]
-    },
-    {
-      "type": 3,
-      "title": "VT2",
-      "description": "Virtual Training Tool",
-      "note": "Virtual Training Tool",
-      "categories": ["Training", "Cubic"],
-      "platform": "linux",
-      "logo": "https://demo.vt2.app/media/vt2_apple.png",
-      "repository": {
-        "url": "https://github.com/MitchellCubic/portainer-templates",
-        "stackfile": "stacks/vt2/docker-compose.yml"
-      },
-      "env": [
-        {
-          "name": "VT2_NAME",
-          "label": "VT2 Name",
-          "description": "This will be used to name the container, network and volume folder",
-          "default": "demo"
-        },
-        {
-          "name": "VT2_IMAGE",
-          "label": "VT2 Image version",
-          "description": "Define the image version to use",
-          "default": "1.0.3"
-        },
-        {
-          "name": "MONGO_PORT",
-          "label": "Mongo DB public port",
-          "description": "Define the image version to use",
-          "default": "27018"
         }
       ]
     }
