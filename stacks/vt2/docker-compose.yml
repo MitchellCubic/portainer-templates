@@ -14,7 +14,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: Password1
       MONGO_INITDB_DATABASE: vt2db
     ports:
-      - 27018:27017
+      - ${MONGO_PORT}:27017
     # healthcheck:
     #   test: echo 'db.runCommand("ping").ok' | mongo mongo:27019/test --quiet
     #   interval: 10s
