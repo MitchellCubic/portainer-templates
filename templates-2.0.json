@@ -21,7 +21,7 @@
           "default": "demo"
         },
         {
-          "name": "VT2_IMAGE",
+          "name": "VT2_VERSION",
           "label": "VT2 Image version",
           "description": "Define the image version to use",
           "default": "1.0.3"
