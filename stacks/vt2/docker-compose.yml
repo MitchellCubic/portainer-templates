@@ -21,6 +21,8 @@ services:
     #   timeout: 10s
     #   retries: 5
     #   start_period: 40s
+    networks:
+      - default
     restart: unless-stopped
   
   #create vt2 app
@@ -50,10 +52,13 @@ services:
       mongodb:
         #condition: service_healthy
         condition: service_started
+    networks:
+      - proxy-net
+      - default
     restart: unless-stopped
 networks:
   default:
     name: ${VT2_NAME}-net
   poxy-net:
-    external:
-      name: proxy-net
+    external: true
+      
