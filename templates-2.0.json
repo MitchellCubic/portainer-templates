@@ -48,8 +48,8 @@
       },
       "env": [
         {
-          "name": "DAM",
-          "label": "Digital Asset Management",
+          "name": "CONTAINER_NAME",
+          "label": "Container Name",
           "description": "This will be used to name the container, network and volume folder",
           "default": "demo"
         },
