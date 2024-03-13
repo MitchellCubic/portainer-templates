@@ -35,6 +35,39 @@
       ]
     },
     {
+      "type": 3,
+      "title": "DAM Resource Space",
+      "description": "Resource Space Digital Asset Management",
+      "note": "Asset Management",
+      "categories": ["dam", "assets"],
+      "platform": "linux",
+      "logo": "https://www.resourcespace.com/img/RS_coloured_white.svg",
+      "repository": {
+        "url": "https://github.com/MitchellCubic/portainer-templates",
+        "stackfile": "stacks/vt2/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "VT2_NAME",
+          "label": "VT2 Name",
+          "description": "This will be used to name the container, network and volume folder",
+          "default": "demo"
+        },
+        {
+          "name": "VT2_VERSION",
+          "label": "VT2 Image version",
+          "description": "Define the image version to use",
+          "default": "1.0.3"
+        },
+        {
+          "name": "MONGO_PORT",
+          "label": "Mongo DB public port",
+          "description": "Define public port used to access the DB",
+          "default": "27018"
+        }
+      ]
+    },
+    {
       "type": 1,
       "title": "Registry",
       "description": "Docker image registry",
