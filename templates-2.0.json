@@ -48,16 +48,10 @@
       },
       "env": [
         {
-          "name": "VT2_NAME",
-          "label": "VT2 Name",
+          "name": "DAM",
+          "label": "Digital Asset Management",
           "description": "This will be used to name the container, network and volume folder",
           "default": "demo"
-        },
-        {
-          "name": "VT2_VERSION",
-          "label": "VT2 Image version",
-          "description": "Define the image version to use",
-          "default": "1.0.3"
         },
         {
           "name": "MONGO_PORT",
