@@ -44,7 +44,7 @@
       "logo": "https://www.resourcespace.com/img/RS_coloured_white.svg",
       "repository": {
         "url": "https://github.com/MitchellCubic/portainer-templates",
-        "stackfile": "stacks/vt2/docker-compose.yml"
+        "stackfile": "stacks/dam/docker-compose.yml"
       },
       "env": [
         {
