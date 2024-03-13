@@ -1,1 +1,44 @@
-
+version: '2.2'
+services:
+  resourcespace-app:
+    image: creecros/resourcespace-docker:latest
+    restart: unless-stopped
+    container_name: dam
+    ports:
+      # change host port 8888 to whatever you need
+      # host:container/protocol
+      - 8888:80/tcp
+    volumes:
+      - include:/include
+      - filestore:/filestore
+  resourcespace-mysql:
+    image: mysql:5.6
+    restart: unless-stopped
+    container_name: resourcespace-mysql
+    environment:
+      MYSQL_DATABASE: resourcespace
+      MYSQL_ROOT_PASSWORD: Password1
+    volumes:
+      - database:/var/lib/mysql
+volumes:
+  filestore:
+    driver: local
+    driver_opts:
+      type: none
+      # change path in device to an existing path on your diskstation!
+      device: /volume1/docker/resourcespace/filestore
+      o: bind
+  include:
+    driver: local
+    driver_opts:
+      type: none
+      # change path in device to an existing path on your diskstation!
+      device: /volume1/docker/resourcespace/include
+      o: bind
+  database:
+    driver: local
+    driver_opts:
+      type: none
+      # change path in device to an existing path on your diskstation!
+      device: /volume1/docker/resourcespace/database
+      o: bind
