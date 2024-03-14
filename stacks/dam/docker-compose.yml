@@ -3,7 +3,7 @@ services:
   resourcespace-app:
     image: creecros/resourcespace-docker:latest
     restart: unless-stopped
-    container_name: dam
+    container_name: ${CONTAINER_NAME}
     ports:
       # change host port 8888 to whatever you need
       # host:container/protocol
