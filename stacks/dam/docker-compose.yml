@@ -45,10 +45,10 @@ services:
     restart: unless-stopped
     # env file containing the db configuration
     environment:
-      MYSQL_PASSWORD=Password1
-      MYSQL_ROOT_PASSWORD=Password1
-      MYSQL_DATABASE=resourcespace
-      MYSQL_USER=resourcespace
+      MYSQL_PASSWORD: Password1
+      MYSQL_ROOT_PASSWORD: Password1
+      MYSQL_DATABASE: resourcespace
+      MYSQL_USER: resourcespace
     volumes:
       - mariadb:/var/lib/mysql
     # only accesible in private network
