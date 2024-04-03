@@ -47,7 +47,7 @@ services:
       - MYSQL_PASSWORD=Password1
       - MYSQL_ROOT_PASSWORD=Password1
       - MYSQL_DATABASE=resourcespace
-      - MYSQL_USER=cubic
+      - MYSQL_USER=resourcespace
     volumes:
       - mariadb:/var/lib/mysql
     # only accesible in private network
