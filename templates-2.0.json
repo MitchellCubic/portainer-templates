@@ -68,7 +68,7 @@
       "note": "Simulation Network Tools",
       "categories": ["network", "simulation"],
       "platform": "linux",
-      "logo": "https://www.resourcespace.com/img/RS_coloured_white.svg",
+      "logo": "https://raw.githubusercontent.com/MitchellCubic/portainer-templates/main/stacks/jsdis/icon.png",
       "repository": {
         "url": "https://github.com/MitchellCubic/portainer-templates",
         "stackfile": "stacks/jsdis/docker-compose.yml"
