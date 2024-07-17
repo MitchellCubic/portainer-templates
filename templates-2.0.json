@@ -62,6 +62,27 @@
       ]
     },
     {
+      "type": 3,
+      "title": "JSDIS",
+      "description": "JSID Server for DIS communications",
+      "note": "Simulation Network Tools",
+      "categories": ["network", "simulation"],
+      "platform": "linux",
+      "logo": "https://www.resourcespace.com/img/RS_coloured_white.svg",
+      "repository": {
+        "url": "https://github.com/MitchellCubic/portainer-templates",
+        "stackfile": "stacks/jsdis/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "CONTAINER_NAME",
+          "label": "Container Name",
+          "description": "This will be used to name the container, network and volume folder",
+          "default": "demo"
+        }
+      ]
+    },
+    {
       "type": 1,
       "title": "Registry",
       "description": "Docker image registry",
