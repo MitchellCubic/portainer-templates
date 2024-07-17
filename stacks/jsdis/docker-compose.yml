@@ -7,7 +7,7 @@ services:
     container_name: ${JSDIS_NAME}-cubic-jsdis
     command: npm run server
     volumes:
-      - "/var/jsdis/${JSDIS_NAME}:/app"
+      # - "/var/jsdis/${JSDIS_NAME}:/app"
     environment:
       APP_NAME: "${JSDIS_NAME} JSDIS"
     #ports:
