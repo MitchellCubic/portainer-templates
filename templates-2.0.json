@@ -75,11 +75,17 @@
       },
       "env": [
         {
-          "name": "CONTAINER_NAME",
-          "label": "Container Name",
+          "name": "JSDIS_NAME",
+          "label": "JSDIS Name",
           "description": "This will be used to name the container, network and volume folder",
           "default": "demo"
-        }
+        },
+        {
+          "name": "JSDIS_VERSION",
+          "label": "JSDIS Image version",
+          "description": "Define the image version to use",
+          "default": "1.1.0"
+        },
       ]
     },
     {
