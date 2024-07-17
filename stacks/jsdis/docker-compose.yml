@@ -9,7 +9,7 @@ services:
     volumes:
       - "/var/jsdis/${VJSDIS_NAME}:/app"
     environment:
-      APP_NAME: "${VT2_NAME} JSIDS"
+      APP_NAME: "${JSDIS_NAME} JSDIS"
     #ports:
       #- 442:443
     networks:
