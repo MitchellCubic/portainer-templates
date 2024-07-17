@@ -85,7 +85,7 @@
           "label": "JSDIS Image version",
           "description": "Define the image version to use",
           "default": "1.1.0"
-        },
+        }
       ]
     },
     {
