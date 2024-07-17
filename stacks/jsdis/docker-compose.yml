@@ -6,7 +6,7 @@ services:
     image: mitchellday06/jsdis:${JSDIS_VERSION}
     container_name: ${JSDIS_NAME}-cubic-jsdis
     command: npm run server
-    volumes:
+    # volumes:
       # - "/var/jsdis/${JSDIS_NAME}:/app"
     environment:
       APP_NAME: "${JSDIS_NAME} JSDIS"
