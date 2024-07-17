@@ -2,8 +2,8 @@
 
 version: '3.5'
 services:
-  vt2:
-    image: mitchellday06/jsdis:${VT2_VERSION}
+  jsdis:
+    image: mitchellday06/jsdis:${JSDIS_VERSION}
     container_name: ${JSDIS_NAME}-cubic-jsdis
     command: npm run server
     volumes:
