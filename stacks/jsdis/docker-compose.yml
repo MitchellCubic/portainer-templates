@@ -16,6 +16,6 @@ services:
       - proxy-net
       - default
     restart: unless-stopped
-networks:
-  default:
-    name: ${JSDIS_NAME}-n
+# networks:
+#   default:
+#     name: ${JSDIS_NAME}-n
