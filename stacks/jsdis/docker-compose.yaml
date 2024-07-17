@@ -1,1 +1,23 @@
+#ctc docker stack
 
+version: '3.5'
+services:
+  vt2:
+    image: mitchellday06/jsdis:${VT2_VERSION}
+    container_name: ${jsdis_NAME}-cubic-jsdis
+    command: npm run server
+    volumes:
+      - "/var/vt2/${VT2_NAME}/video_results:/app/data/tewts/results/videos"
+    environment:
+      MONGO_ADDRESS: ${VT2_NAME}-cubicvt2-mongodb
+
+      APP_NAME: "${VT2_NAME} JSIDS"
+    #ports:
+      #- 442:443
+    networks:
+      - proxy-net
+      - default
+    restart: unless-stopped
+networks:
+  default:
+    name: ${VT2_NAME}-n
