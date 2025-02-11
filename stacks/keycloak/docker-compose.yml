@@ -6,6 +6,8 @@ version: '3.7'
 networks:
   proxy-net:
     external: true
+  default:
+    name: ${CONTAINER_NAME}-kc-net
 
 volumes:
   psql_storage:
@@ -20,7 +22,7 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=keycloak
     networks:
-      - ${CONTAINER_NAME}-kc-net
+      - default
     ports:
       - '5437:5432'
     healthcheck:
@@ -36,7 +38,7 @@ services:
     container_name: keycloak
     networks:
       - proxy-net
-      - ${CONTAINER_NAME}-kc-net
+      - default
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres
