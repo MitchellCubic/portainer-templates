@@ -89,6 +89,33 @@
       ]
     },
     {
+      "type": 3,
+      "title": "Keycloak",
+      "description": "Authentication and IdP service",
+      "note": "",
+      "categories": ["auth", "idp"],
+      "platform": "linux",
+      "logo": "https://www.keycloak.org/resources/images/logo.svg",
+      "repository": {
+        "url": "https://github.com/MitchellCubic/portainer-templates",
+        "stackfile": "stacks/keycloack/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "CONTAINER_NAME",
+          "label": "Container Name",
+          "description": "This will be used to name the container, network and volume folder",
+          "default": "demo"
+        },
+        {
+          "name": "ACCESS_PORT",
+          "label": "Public port to access container ",
+          "description": "Define public port used to access container",
+          "default": "80"
+        }
+      ]
+    },
+    {
       "id": 1,
       "type": 1,
       "title": "Registry",
