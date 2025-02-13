@@ -116,6 +116,33 @@
       ]
     },
     {
+      "type": 3,
+      "title": "Oauth2-Proxy",
+      "description": "OAUth2 Proxy",
+      "note": "",
+      "categories": ["auth", "idp"],
+      "platform": "linux",
+      "logo": "https://oauth2-proxy.github.io/oauth2-proxy/img/logos/OAuth2_Proxy_icon.svg",
+      "repository": {
+        "url": "https://github.com/MitchellCubic/portainer-templates",
+        "stackfile": "stacks/oauth2-proxy/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "CONT_NAME",
+          "label": "Container Name",
+          "description": "This will be used to name the container: : <name>-oauth2-proxy",
+          "default": "demo"
+        },
+        {
+          "name": "ACCESS_PORT",
+          "label": "Public port to access container ",
+          "description": "Define public port used to access container",
+          "default": ""
+        }
+      ]
+    },
+    {
       "type": 1,
       "title": "Registry",
       "description": "Docker image registry",
