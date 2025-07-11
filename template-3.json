@@ -1,6 +1,20 @@
 {
   "version": "3",
   "templates": [
+     {
+      "id": 75,
+      "type": 3,
+      "title": "NPM",
+      "description": "Nginx Proxy Manager",
+      "note": "NGINX Proxy Manager",
+      "categories": ["Proxy", "Cubic", "Reverse Proxy"],
+      "platform": "linux",
+      "logo": "https://nginxproxymanager.com/logo.svg",
+      "repository": {
+        "url": "https://github.com/MitchellCubic/portainer-templates",
+        "stackfile": "stacks/npm/docker-compose.yml"
+      }
+    },
     {
       "id": 70,
       "type": 3,
