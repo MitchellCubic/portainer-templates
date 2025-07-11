@@ -2,6 +2,7 @@
   "version": "3",
   "templates": [
     {
+      "id": 70,
       "type": 3,
       "title": "VT2",
       "description": "Virtual Training Tool",
@@ -35,6 +36,7 @@
       ]
     },
     {
+      "id": 71,
       "type": 3,
       "title": "DAM Resource Space",
       "description": "Resource Space Digital Asset Management",
@@ -62,6 +64,7 @@
       ]
     },
     {
+      "id": 72,
       "type": 3,
       "title": "JSDIS",
       "description": "JSID Server for DIS communications",
@@ -89,6 +92,7 @@
       ]
     },
     {
+      "id": 73,
       "type": 3,
       "title": "Keycloak",
       "description": "Authentication and IdP service",
