@@ -115,7 +115,7 @@
       "platform": "linux",
       "logo": "https://www.keycloak.org/resources/images/logo.svg",
       "repository": {
-        "stackfile": "https://raw.githubusercontent.com/MitchellCubic/portainer-templates/main/keycloak/docker-compose.yml""
+        "stackfile": "https://raw.githubusercontent.com/MitchellCubic/portainer-templates/main/keycloak/docker-compose.yml"
       },
       "env": [
         {
