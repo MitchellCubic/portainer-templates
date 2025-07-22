@@ -126,6 +126,12 @@
           "default": "demo"
         },
         {
+          "name": "KEYCLOAK_HOSTNAME",
+          "label": "Keycloak URL",
+          "description": "Input the URL used to access the keycloak instance",
+          "default": "localhost"
+        },
+        {
           "name": "ACCESS_PORT",
           "label": "Public port to access container ",
           "description": "Define public port used to access container",
