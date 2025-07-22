@@ -48,8 +48,15 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
       KEYCLOAK_HTTP_PORT: 8080
+      KEYCLOAK_HTTPS_PORT: 8443
+      KEYCLOAK_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/conf/certs/keycloak.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/conf/certs/keycloak.key
       PROXY_ADDRESS_FORWARDING: 'true'
       # JDBC_PARAMS: 'connectTimeout=30'
+    volumes:
+      - ./keycloak_data:/opt/keycloak/data
+      - ./certs:/opt/keycloak/conf/certs:ro
     ports:
       - ${ACCESS_PORT}:8080
     depends_on:
