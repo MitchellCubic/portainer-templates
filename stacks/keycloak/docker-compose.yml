@@ -27,7 +27,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - psql_storage:/var/lib/postgresql/data
+      - ./psql_storage:/var/lib/postgresql/data
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
@@ -36,24 +36,29 @@ services:
       - proxy-net
       - default
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: keycloak
-      DB_USER: postgres
-      DB_PASSWORD: password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
-      KEYCLOAK_HTTP_PORT: 8080
-      KEYCLOAK_HTTPS_PORT: 8443
+      #database
+      KC_DB: keycloak
+      KC_DB_URL_HOST: postgres 
+      KC_DB_PORT: 5432
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: password
+      #hostname and TLS
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      KC_PROXY: edge
+      KC_LOG_LEVEL: INFO
+      # KEYCLOAK_HTTP_PORT: 8080
       KEYCLOAK_HOSTNAME: ${KEYCLOAK_HOSTNAME}
-      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/conf/certs/keycloak.crt
-      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/conf/certs/keycloak.key
-      PROXY_ADDRESS_FORWARDING: 'true'
+      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
       # JDBC_PARAMS: 'connectTimeout=30'
     volumes:
       - ./keycloak_data:/opt/keycloak/data
+      - ./keycloak_certs:/etc/x509/https:ro
     ports:
-      - ${ACCESS_PORT}:8080
+      - ${ACCESS_PORT}:8443
     depends_on:
       - postgres
     healthcheck:
