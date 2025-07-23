@@ -8,9 +8,21 @@ networks:
   default:
     name: ${CONTAINER_NAME}-kc-net
 volumes:
-  psql_storage:
-    external: true
+  ${CONTAINER_NAME}_psql_storage:
+  ${CONTAINER_NAME}_kc_certs:
+    
 services:
+  cert-gen:
+    image: alpine
+    command: sh -c "apk add openssl &&
+             mkdir -p /certs &&
+             openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
+               -keyout /certs/tls.key \
+               -out /certs/tls.crt \
+               -subj '/CN=${CONTAINER_NAME}'"
+    volumes:
+      - ${CONTAINER_NAME}_kc_certs:/certs
+      
   postgres:
     image: postgres:13.3-alpine
     container_name: ${CONTAINER_NAME}-psql
@@ -28,7 +40,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./psql_storage:/var/lib/postgresql/data
+      - ${CONTAINER_NAME}_psql_storage:/var/lib/postgresql/data
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
@@ -54,13 +66,13 @@ services:
       KC_PROXY: edge
       KC_LOG_LEVEL: INFO
       # KEYCLOAK_HTTP_PORT: 8080
-      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+      KC_HOSTNAME: ${CONTAINER_NAME}
       KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
       KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
       # JDBC_PARAMS: 'connectTimeout=30'
     volumes:
-      - ./keycloak_data:/opt/keycloak/data
-      - ./keycloak_certs:/etc/x509/https:ro
+      - ${CONTAINER_NAME}_kc_data:/opt/keycloak/data
+      - ${CONTAINER_NAME}_kc_certs:/etc/x509/https:ro
     ports:
       - ${ACCESS_PORT}:8443
     depends_on:
