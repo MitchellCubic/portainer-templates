@@ -8,8 +8,12 @@ networks:
   default:
     name: ${CONTAINER_NAME}-kc-net
 volumes:
-  ${CONTAINER_NAME}_psql_storage:
-  ${CONTAINER_NAME}_kc_certs:
+  psql_storage:
+    name: ${CONTAINER_NAME}_psql_storage
+  kc_certs:
+    name: ${CONTAINER_NAME}_kc_certs
+  kc_data:
+    name: ${CONTAINER_NAME}_kc_data
     
 services:
   cert-gen:
@@ -19,9 +23,9 @@ services:
              openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
                -keyout /certs/tls.key \
                -out /certs/tls.crt \
-               -subj '/CN=${CONTAINER_NAME}'"
+               -subj '/C=AU/O=${ORG}/OU=${ORG_UNIT}/CN=${CONTAINER_NAME}'"
     volumes:
-      - ${CONTAINER_NAME}_kc_certs:/certs
+      - kc_certs:/certs
       
   postgres:
     image: postgres:13.3-alpine
@@ -40,7 +44,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ${CONTAINER_NAME}_psql_storage:/var/lib/postgresql/data
+      - psql_storage:/var/lib/postgresql/data
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
@@ -66,19 +70,19 @@ services:
       KC_PROXY: edge
       KC_LOG_LEVEL: INFO
       # KEYCLOAK_HTTP_PORT: 8080
-      KC_HOSTNAME: ${CONTAINER_NAME}
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
       KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
       KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
       # JDBC_PARAMS: 'connectTimeout=30'
     volumes:
-      - ${CONTAINER_NAME}_kc_data:/opt/keycloak/data
-      - ${CONTAINER_NAME}_kc_certs:/etc/x509/https:ro
+      - kc_data:/opt/keycloak/data
+      - kc_certs:/etc/x509/https:ro
     ports:
       - ${ACCESS_PORT}:8443
     depends_on:
       - postgres
     healthcheck:
-      test: curl --fail -s http://localhost:8080 || exit 1
+      test: curl --fail -s https://localhost:8443 || exit 1
       start_period: 30s
       interval: 15s
       timeout: 15s
