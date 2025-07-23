@@ -13,6 +13,7 @@ volumes:
 services:
   postgres:
     image: postgres:13.3-alpine
+    container_name: ${CONTAINER_NAME}-psql
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
@@ -31,7 +32,7 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
-    container_name: ${CONTAINER_NAME}
+    container_name: ${CONTAINER_NAME}-kc
     command: >
       bash -c "kc.sh build &&
                kc.sh start"
