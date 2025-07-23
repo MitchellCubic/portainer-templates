@@ -33,9 +33,8 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: ${CONTAINER_NAME}-kc
-    command: >
-      bash -c "kc.sh build &&
-               kc.sh start"
+    entrypoint: /bin/bash
+    command: -c "kc.sh build && kc.sh start"
     networks:
       - proxy-net
       - default
