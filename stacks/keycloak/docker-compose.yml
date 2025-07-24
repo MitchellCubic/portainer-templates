@@ -17,6 +17,7 @@ volumes:
     
 services:
   cert-gen:
+    container_name: ${CONTAINER_NAME}_cert_gen
     image: alpine
     command: sh -c "apk add openssl &&
              mkdir -p /certs &&
@@ -76,11 +77,13 @@ services:
       # JDBC_PARAMS: 'connectTimeout=30'
     volumes:
       - kc_data:/opt/keycloak/data
-      - kc_certs:/etc/x509/https:ro
+      - kc_certs:/etc/x509/https
     ports:
       - ${ACCESS_PORT}:8443
     depends_on:
       - postgres
+      - cert-gen
+    restart: unless-stopped
     healthcheck:
       test: curl --fail -s https://localhost:8443 || exit 1
       start_period: 30s
