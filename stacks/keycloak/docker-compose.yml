@@ -24,7 +24,9 @@ services:
              openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
                -keyout /certs/tls.key \
                -out /certs/tls.crt \
-               -subj '/C=AU/O=${ORG}/OU=${ORG_UNIT}/CN=${CONTAINER_NAME}'"
+               -subj '/C=AU/O=${ORG}/OU=${ORG_UNIT}/CN=${CONTAINER_NAME}' &&
+             chmod 644 /certs/tls.* &&
+             chown 1000:1000 /certs/tls.*"
     volumes:
       - kc_certs:/certs
       
