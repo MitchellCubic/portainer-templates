@@ -82,12 +82,13 @@ services:
       - kc_certs:/etc/x509/https
     ports:
       - ${ACCESS_PORT}:8443
+      - 9000:9000
     depends_on:
       - postgres
       - cert-gen
     restart: unless-stopped
     healthcheck:
-      test: curl --fail -s https://localhost:8443 || exit 1
+      test: ["CMD", "curl", "--fail", "--insecure", "https://localhost:8443"]
       start_period: 30s
       interval: 15s
       timeout: 15s
