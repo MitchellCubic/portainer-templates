@@ -200,7 +200,7 @@
           "label": "Local Port",
           "description": "Local port to access Metabase",
           "default": "3031"
-        },
+        }
       ]
     },
     {
