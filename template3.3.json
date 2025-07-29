@@ -194,7 +194,13 @@
           "label": "DB Encryption Key",
           "description": "Customise the key to make unique",
           "default": "IYqrSi5QDHdvFWe4/WdA87nra5DZCUiOa3ZSrOJDKsM="
-        }
+        },
+        {
+          "name": "PUBLIC_PORT",
+          "label": "Local Port",
+          "description": "Local port to access Metabase",
+          "default": "3031"
+        },
       ]
     },
     {
