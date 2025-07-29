@@ -20,6 +20,8 @@ services:
     depends_on:
       - postgres
     restart: always
+    ports:
+    - ${PUBLIC_PORT}:3000
 
   postgres:
     image: postgres:15.13
