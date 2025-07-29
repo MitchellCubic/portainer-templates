@@ -14,7 +14,7 @@ services:
       MB_DB_USER: ${MB_UNAME}
       MB_DB_PASS: ${MB_PASS}
       MB_DB_HOST: postgres
-      MB_ENCRYPTION_SECRET_KEY: /run/secrets/mb_key
+      MB_ENCRYPTION_SECRET_KEY: ${MB_ENCRYPT_KEY}
     networks:
       - metanet1
     depends_on:
