@@ -145,9 +145,16 @@
         },
         {
           "name": "ACCESS_PORT",
-          "label": "Public port to access container ",
+          "label": "Public port to access container directly",
           "description": "Define public port used to access container",
-          "default": "8080"
+          "default": "8443"
+        },
+        {
+          "name": "KC_RESTRICT_ACCESS",
+          "label": "Strict Hostname Check",
+          "description": "Set to true to force Keycloak to only respond to the defined hostname (recommended for production)",
+          "default": "false",
+            "enum": ["true", "false"]
         }
       ]
     },
