@@ -53,7 +53,7 @@ services:
     image: quay.io/keycloak/keycloak:latest
     container_name: ${CONTAINER_NAME}-kc
     entrypoint: /bin/bash
-    command: -c "/opt/keycloak/bin/kc.sh build && /opt/keycloak/bin/kc.sh start"
+    command: -c "/opt/keycloak/bin/kc.sh build --spi-theme-static-max-age=-1 --spi-theme-cache-themes=false && /opt/keycloak/bin/kc.sh start --import-realm"
     networks:
       - proxy-net
       - default
@@ -75,21 +75,27 @@ services:
       # KEYCLOAK_HTTP_PORT: 8080
       KC_HOSTNAME_PORT: 443
 
-      ##PRODUCTON BELOW HAS STRICT ACCESS VIA DEFINED HOSTNAME
-      ##UNCOMMENT THESE LINES AND COMMENT OUT THE DEV LINES
-      # KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
-      # KC_HOSTNAME_STRICT: true #change this to true for production
+      #PRODUCTON BELOW HAS STRICT ACCESS VIA DEFINED HOSTNAME
+      #UNCOMMENT THESE LINES AND COMMENT OUT THE DEV LINES
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+      KC_HOSTNAME_STRICT: true #change this to true for production
 
       ##DEV MODE DOES NOT HAVE STRICT HOSTNAME ACCESS
       ##COMMENT OUT THE PROD LINE AND UNCOMMENT THESE FOR DEVELOPMENT
-      KC_HOSTNAME_STRICT: false #change this to true for production
+      # KC_HOSTNAME_STRICT: false #change this to true for production
       
       KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
       KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
+
+      #theme
+      KC_IMPORT: /opt/keycloak/data/import/realm.json
+      KC_THEME: cctems-theme
       # JDBC_PARAMS: 'connectTimeout=30'
     volumes:
       - kc_data:/opt/keycloak/data
       - kc_certs:/etc/x509/https
+      - /opt/keycloak-config/realm.json:/opt/keycloak/data/import/realm.json
+      - /opt/keycloak-config/themes:/opt/keycloak/themes
     ports:
       - ${ACCESS_PORT}:8443
       - 9000:9000
