@@ -73,9 +73,17 @@ services:
       KC_PROXY: edge
       KC_LOG_LEVEL: INFO
       # KEYCLOAK_HTTP_PORT: 8080
+
+      ##PRODUCTON BELOW HAS STRICT ACCESS VIA DEFINED HOSTNAME
+      ##UNCOMMENT THESE LINES AND COMMENT OUT THE DEV LINES
       # KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
       # KC_HOSTNAME_PORT: 443
-      # KC_HOSTNAME_STRICT: ${KC_RESTRICT_ACCESS} #change this to true for production
+      # KC_HOSTNAME_STRICT: true #change this to true for production
+
+      ##DEV MODE DOES NOT HAVE STRICT HOSTNAME ACCESS
+      ##COMMENT OUT THE PROD LINE AND UNCOMMENT THESE FOR DEVELOPMENT
+      KC_HOSTNAME_STRICT: false #change this to true for production
+      
       KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
       KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
       # JDBC_PARAMS: 'connectTimeout=30'
