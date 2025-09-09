@@ -1,0 +1,58 @@
+version: '3.7'
+
+
+networks:
+  proxy-net:
+    external: true
+  default:
+    name: ${CONTAINER_NAME}-geo-net
+
+
+volumes:
+  geo_certs:
+    name: ${CONTAINER_NAME}_geo_certs
+  geo_data:
+    name: ${CONTAINER_NAME}_geo_data
+  geoserver_data:
+    name: ${CONTAINER_NAME}_geoserver_data
+
+
+services:
+  cert-gen:
+    container_name: ${CONTAINER_NAME}_cert_gen
+    image: alpine
+    command: sh -c "apk add openssl &&
+              mkdir -p /certs &&
+              openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
+              -keyout /certs/tls.key \
+              -out /certs/tls.crt \
+              -subj '/C=AU/O=${ORG}/OU=${ORG_UNIT}/CN=${CONTAINER_NAME}' &&
+              chmod 644 /certs/tls.* &&
+              chown 1000:1000 /certs/tls.*"
+    volumes:
+      - geo_certs:/certs
+
+  geoserver:
+    image: kartoza/geoserver:2.23
+    container_name: ${CONTAINER_NAME}-geoserver
+    networks:
+      - proxy-net
+      - default
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      GEOSERVER_CONTEXT_PATH: /
+      PROXY_BASE_URL: ${GEOSERVER_URL}
+      GEOSERVER_ADMIN_PASSWORD: geoserver
+      SSL: true
+      PKCS12_PASSWORD: geoserver
+      GEOSERVER_HTTPS_CERTIFICATE_FILE: /certs/tls.crt
+      GEOSERVER_HTTPS_CERTIFICATE_KEY_FILE: /certs/tls.key
+    volumes:
+      - geoserver_data:/opt/geoserver/data_dir
+      - geo_certs:/certs
+    depends_on:
+      cert-gen:
+        condition: service_started
+    restart: unless-stopped
