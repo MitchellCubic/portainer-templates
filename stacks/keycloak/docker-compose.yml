@@ -53,7 +53,7 @@ services:
     image: quay.io/keycloak/keycloak:latest
     container_name: ${CONTAINER_NAME}-kc
     entrypoint: /bin/bash
-    command: -c "/mnt/keycloak/bin/kc.sh build --spi-theme-static-max-age=-1 --spi-theme-cache-themes=false && /mnt/keycloak/bin/kc.sh start --import-realm"
+    command: -c "/opt/keycloak/bin/kc.sh build --spi-theme-static-max-age=-1 --spi-theme-cache-themes=false && /opt/keycloak/bin/kc.sh start --import-realm"
     networks:
       - proxy-net
       - default
@@ -88,14 +88,14 @@ services:
       KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
 
       #theme
-      KC_IMPORT: /opt/keycloak/data/import/realm.json
-      KC_THEME: cctems-theme
+      # KC_IMPORT: /opt/keycloak/data/import/realm.json
+      # KC_THEME: cctems-theme
       # JDBC_PARAMS: 'connectTimeout=30'
     volumes:
       - kc_data:/opt/keycloak/data
       - kc_certs:/etc/x509/https
-      - /opt/keycloak-config/realm.json:/opt/keycloak/data/import/realm.json
-      - /opt/keycloak-config/themes:/opt/keycloak/themes
+      # - /opt/keycloak-config/realm.json:/opt/keycloak/data/import/realm.json
+      # - /opt/keycloak-config/themes:/opt/keycloak/themes
     ports:
       - ${ACCESS_PORT}:8443
       - 9000:9000
