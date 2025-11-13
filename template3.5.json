@@ -159,6 +159,59 @@
       ]
     },
     {
+      "id": 75,
+      "type": 3,
+      "title": "Keycloak Files",
+      "description": "Authentication and IdP service",
+      "note": "",
+      "categories": ["auth", "idp"],
+      "platform": "linux",
+      "logo": "https://www.keycloak.org/resources/images/logo.svg",
+      "repository": {
+        "url": "https://github.com/MitchellCubic/portainer-templates",
+        "stackFile": "stacks/keycloak_dir/docker-compose.yml"
+    },
+      "env": [
+        {
+          "name": "CONTAINER_NAME",
+          "label": "Container Name",
+          "description": "This will be used to name the container, network and volume folder",
+          "default": "demo"
+        },
+        {
+          "name": "KEYCLOAK_HOSTNAME",
+          "label": "Keycloak URL",
+          "description": "Input the URL used to access the keycloak instance",
+          "default": "localhost"
+        },
+        {
+          "name": "ORG",
+          "label": "Name of the Organisation ",
+          "description": "The Organisation name used in the Self Signed Certs",
+          "default": "Cubic"
+        },
+        {
+          "name": "ORG_UNIT",
+          "label": "Name of the Organisation Unit ",
+          "description": "The Unit in the Organisation",
+          "default": "IT"
+        },
+        {
+          "name": "ACCESS_PORT",
+          "label": "Public port to access container directly",
+          "description": "Define public port used to access container",
+          "default": "8443"
+        },
+        {
+          "name": "KC_RESTRICT_ACCESS",
+          "label": "Strict Hostname Check",
+          "description": "Set to true to force Keycloak to only respond to the defined hostname (recommended for production)",
+          "default": "false",
+            "enum": ["true", "false"]
+        }
+      ]
+    },
+    {
       "id": 74,
       "type": 3,
       "title": "Metabase",
