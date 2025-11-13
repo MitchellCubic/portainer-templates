@@ -1,0 +1,118 @@
+# docker network create my-net
+# docker volume create psql_storage
+# docker-compose -f docker-compose-kc-psql-nginx.yml up -d
+version: '3.7'
+networks:
+  proxy-net:
+    external: true
+  default:
+    name: ${CONTAINER_NAME}-kc-net
+volumes:
+  psql_storage:
+    name: ${CONTAINER_NAME}_psql_storage
+  kc_certs:
+    name: ${CONTAINER_NAME}_kc_certs
+    
+services:
+  cert-gen:
+    container_name: ${CONTAINER_NAME}_cert_gen
+    image: alpine
+    command: sh -c "apk add openssl &&
+             mkdir -p /certs &&
+             openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
+               -keyout /certs/tls.key \
+               -out /certs/tls.crt \
+               -subj '/C=AU/O=${ORG}/OU=${ORG_UNIT}/CN=${CONTAINER_NAME}' &&
+             chmod 644 /certs/tls.* &&
+             chown 1000:1000 /certs/tls.*"
+    volumes:
+      - kc_certs:/certs
+      
+  postgres:
+    image: postgres:13.3-alpine
+    container_name: ${CONTAINER_NAME}-psql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+    networks:
+      - default
+    ports:
+      - '5438:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - psql_storage:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: ${CONTAINER_NAME}-kc
+    entrypoint: /bin/bash
+    command: -c "/opt/keycloak/bin/kc.sh build --spi-theme-static-max-age=-1 --spi-theme-cache-themes=false && /opt/keycloak/bin/kc.sh start --import-realm"
+    networks:
+      - proxy-net
+      - default
+    environment:
+      #database
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres 
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_PORT: 5432
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: password
+      #hostname and TLS
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      KC_PROXY: edge
+      KC_LOG: file
+      KC_LOG_OUTPUT: json
+      KC_LOG_LEVEL: INFO
+      KC_EVENTS_ENABLED: true
+      KC_EVENTS_LISTENER: jboss-logging
+      KC_SPI_EVENTS_LISTENER_JBOSS_LOGGER_LEVEL: info
+      KC_SPI_EVENTS_LISTENER_JBOSS_LOGGER_DIR: /opt/keycloak/data/log
+      KC_SPI_EVENTS_LISTENER_JBOSS_LOGGER_FILE: events.log
+      
+      
+      # KEYCLOAK_HTTP_PORT: 8080
+      KC_HOSTNAME_PORT: 443
+
+      #PRODUCTON BELOW HAS STRICT ACCESS VIA DEFINED HOSTNAME
+      #UNCOMMENT THESE LINES AND COMMENT OUT THE DEV LINES
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+      KC_HOSTNAME_STRICT: true #change this to true for production
+
+      ##DEV MODE DOES NOT HAVE STRICT HOSTNAME ACCESS
+      ##COMMENT OUT THE PROD LINE AND UNCOMMENT THESE FOR DEVELOPMENT
+      # KC_HOSTNAME_STRICT: false #change this to true for production
+      
+      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
+
+      #theme
+      # KC_IMPORT: /opt/keycloak/data/import/realm.json
+      # KC_THEME: cctems-theme
+      # JDBC_PARAMS: 'connectTimeout=30'
+    volumes:
+      - /opt/keycloak/${CONTAINER_NAME}/data:/opt/keycloak/data
+      - kc_certs:/etc/x509/https
+      # - /opt/keycloak-config/realm.json:/opt/keycloak/data/import/realm.json
+      # - /opt/keycloak-config/themes:/opt/keycloak/themes
+    ports:
+      - ${ACCESS_PORT}:8443
+      - 9000:9000
+    depends_on:
+      - postgres
+      - cert-gen
+    restart: unless-stopped
+    # healthcheck:
+    #   test: ["CMD", "curl", "--fail", "--insecure", "https://localhost:8443"]
+    #   start_period: 30s
+    #   interval: 15s
+    #   timeout: 15s
+    #   retries: 5
