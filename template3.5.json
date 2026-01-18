@@ -49,6 +49,28 @@
         }
       ]
     },
+     {
+      "id": 85,
+      "type": 3,
+      "title": "Technitium DNS Server",
+      "description": "Technitium DNS Server",
+      "note": "A DNS Server",
+      "categories": ["DNS", "Network", "Home"],
+      "platform": "linux",
+      "logo": "https://technitium.com/img/logo.png",
+      "repository": {
+        "url": "https://github.com/MitchellCubic/portainer-templates",
+        "stackfile": "stacks/technitiumsoftware_dns/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "ADMIN_PASSWORD",
+          "label": "Admin Password",
+          "description": "For the admin account of the server",
+          "default": "#87nsddfj"
+        }
+      ]
+    },
     {
       "id": 71,
       "type": 3,
